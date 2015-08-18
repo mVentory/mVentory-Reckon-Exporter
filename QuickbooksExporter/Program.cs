@@ -13,17 +13,25 @@ namespace QuickbooksExporter
     {
         static void Main()
         {
-            var settings = GetExportSettings();
+            try
+            {
+                var settings = GetExportSettings();
 
-            Console.WriteLine("Retrieving Item Inventories from Quickbooks...");
+                Console.WriteLine("Retrieving Item Inventories from Quickbooks...");
 
-            var itemInventories = GetItemInventories(settings);
+                var itemInventories = GetItemInventories(settings);
 
-            Console.WriteLine($"Found {itemInventories.Rows.Count} Item Inventories.");
+                Console.WriteLine($"Found {itemInventories.Rows.Count} Item Inventories.");
 
-            Console.WriteLine("Dumping to CSV...");
+                Console.WriteLine("Dumping to CSV...");
 
-            DumpToCsv(settings, itemInventories);
+                DumpToCsv(settings, itemInventories);
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+                Console.WriteLine(ex.Message);
+            }
 
             Console.WriteLine("Press any key to exit...");
 
@@ -72,6 +80,11 @@ namespace QuickbooksExporter
                 OutputFolder = ConfigurationManager.AppSettings["OutputFolder"],
                 OutputFileName = ConfigurationManager.AppSettings["OutputFileName"]
             };
+        }
+
+        static void LogError(Exception ex)
+        {
+            File.AppendAllText("error.log", $"[{DateTime.Now}]: {ex}" + Environment.NewLine);
         }
     }
 }
