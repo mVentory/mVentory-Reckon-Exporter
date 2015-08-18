@@ -1,0 +1,21 @@
+1. Install QODBC.
+2. Configure QODBC data source the console application will be using.
+   - Go to All Programs > QODBC Driver > Configure QODBC Data Source.
+   - Go to "System DNS" tab.
+   - Add new data source and select "QODBC Driver for Quickbooks".
+   - In the "General" tab, enter the data source name (DSN).
+   - You can leave the other default options.
+3. Enter the data source name in step #2 in the "QuickbooksExporter.exe.config" file (this is the app.config) into the "OdbcDsn" setting.
+4. Authorize application access to Quickbooks.
+   - Open Quickbooks and login to company file using the "Admin" account.
+   - Run the console application.
+   - If this is the first time the console application is trying to connect to Quickbooks, the QB authorization wizard will show up. Just follow the wizard and authorize the application.
+
+If everything is configured properly, you should see the details on the export processes in the console application.
+
+Note:
+
+- When the "OutputFolder" setting is blank it will default to the desktop.
+- When the "OutputFileName" setting is blank it will default to "item_inventory.csv".
+- When an error occurs during the process, the details are written to the "error.log" file located on the console application directory.
+   
